@@ -31,15 +31,18 @@ export class BookController {
   ) {}
 
   @Get()
-  async getBooks(@Query() query: GetBooksDto) {
-    const current: number = parseInt(query.page ?? '1');
-    const size: number = parseInt(query.pageSize ?? '10');
+  async getBooks(@Query() _: GetBooksDto) {
+    // const current: number = parseInt(query.page ?? '1');
+    // const size: number = parseInt(query.pageSize ?? '10');
 
     const books = await this.bookService.getManyBooks({
       orderBy: { created_timetick: 'desc' },
-      take: size,
-      skip: (current - 1) * size,
+      // take: size,
+      // skip: (current - 1) * size,
       select: {
+        idx: true,
+        price: true,
+        cover_photo: true,
         book_uniq_idx: true,
         bookname: true,
         content_owner: true,
