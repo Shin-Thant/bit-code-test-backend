@@ -9,4 +9,12 @@ export class BookService {
   async createBook(arg: Prisma.tbl_bookCreateArgs) {
     return await this.db.tbl_book.create(arg);
   }
+
+  async findUnique(arg: Prisma.tbl_bookFindUniqueArgs) {
+    return await this.db.tbl_book.findUnique(arg);
+  }
+
+  async updateBook(arg: Prisma.tbl_bookUpdateArgs) {
+    return await this.db.tbl_book.update(arg);
+  }
 }
