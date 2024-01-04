@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Delete,
   Param,
   Post,
   Put,
@@ -10,7 +11,12 @@ import { BookService } from 'src/services/book/book.service';
 import { ContentOwnerService } from 'src/services/content-owner/content-owner.service';
 import { PublisherService } from 'src/services/publisher/publisher.service';
 import { BookIdService } from 'src/util/book-id/book-id.service';
-import { CreateBookDto, UpdateBookBodyDto, UpdateBookParamDto } from './dto';
+import {
+  CreateBookDto,
+  DeleteBookDto,
+  UpdateBookBodyDto,
+  UpdateBookParamDto,
+} from './dto';
 
 @Controller('books')
 export class BookController {
@@ -94,5 +100,20 @@ export class BookController {
     });
 
     return updateResult;
+  }
+
+  @Delete(':bookID')
+  async deleteBook(@Param() param: DeleteBookDto) {
+    const foundBook = await this.bookService.findUnique({
+      where: { idx: parseInt(param.bookID) },
+    });
+    if (!foundBook) {
+      throw new BadRequestException('Book not found!');
+    }
+
+    await this.bookService.deleteBook({
+      where: { idx: parseInt(param.bookID) },
+    });
+    return { message: 'Book deleted successfully!' };
   }
 }

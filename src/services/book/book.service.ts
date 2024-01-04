@@ -17,4 +17,8 @@ export class BookService {
   async updateBook(arg: Prisma.tbl_bookUpdateArgs) {
     return await this.db.tbl_book.update(arg);
   }
+
+  async deleteBook(arg: Prisma.tbl_bookDeleteArgs) {
+    return await this.db.tbl_book.delete(arg);
+  }
 }
