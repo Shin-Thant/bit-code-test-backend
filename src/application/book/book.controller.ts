@@ -3,9 +3,11 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { BookService } from 'src/services/book/book.service';
 import { ContentOwnerService } from 'src/services/content-owner/content-owner.service';
@@ -14,6 +16,7 @@ import { BookIdService } from 'src/util/book-id/book-id.service';
 import {
   CreateBookDto,
   DeleteBookDto,
+  GetBooksDto,
   UpdateBookBodyDto,
   UpdateBookParamDto,
 } from './dto';
@@ -26,6 +29,27 @@ export class BookController {
     private readonly publisherService: PublisherService,
     private readonly bookIDService: BookIdService,
   ) {}
+
+  @Get()
+  async getBooks(@Query() query: GetBooksDto) {
+    const current: number = parseInt(query.page ?? '1');
+    const size: number = parseInt(query.pageSize ?? '10');
+
+    const books = await this.bookService.getManyBooks({
+      orderBy: { created_timetick: 'desc' },
+      take: size,
+      skip: (current - 1) * size,
+      select: {
+        book_uniq_idx: true,
+        bookname: true,
+        content_owner: true,
+        publisher: true,
+        created_timetick: true,
+      },
+    });
+
+    return books;
+  }
 
   @Post()
   async createBook(@Body() body: CreateBookDto) {

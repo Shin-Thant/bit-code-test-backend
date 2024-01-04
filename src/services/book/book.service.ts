@@ -6,6 +6,14 @@ import { DbService } from 'src/util/db/db.service';
 export class BookService {
   constructor(private readonly db: DbService) {}
 
+  async countBooks(arg: Prisma.tbl_bookCountArgs) {
+    return await this.db.tbl_book.count(arg);
+  }
+
+  async getManyBooks(arg: Prisma.tbl_bookFindManyArgs) {
+    return await this.db.tbl_book.findMany(arg);
+  }
+
   async createBook(arg: Prisma.tbl_bookCreateArgs) {
     return await this.db.tbl_book.create(arg);
   }

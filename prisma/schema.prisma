@@ -31,7 +31,7 @@ model tbl_book {
   publisher        publisher     @relation(fields: [publisher_id], references: [idx], onDelete: Cascade, onUpdate: Cascade)
   content_owner    content_owner @relation(fields: [co_id], references: [idx], onDelete: Cascade, onUpdate: Cascade)
 
-  @@index([book_uniq_idx], map: "book_uniq_idx")
-  @@index([co_id], map: "co_id")
-  @@index([publisher_id], map: "publisher_id")
+  @@index([book_uniq_idx])
+  @@index([co_id])
+  @@index([publisher_id])
 }
