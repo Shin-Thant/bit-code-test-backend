@@ -1,0 +1,37 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model content_owner {
+  idx      Int        @id @default(autoincrement())
+  name     String     @db.VarChar(255)
+  tbl_book tbl_book[]
+}
+
+model publisher {
+  idx      Int        @id @default(autoincrement())
+  name     String     @db.VarChar(255)
+  tbl_book tbl_book[]
+}
+
+model tbl_book {
+  idx              Int           @id @default(autoincrement())
+  co_id            Int
+  publisher_id     Int
+  book_uniq_idx    String        @db.VarChar(255)
+  bookname         String        @db.VarChar(255)
+  cover_photo      String        @db.VarChar(255)
+  price            Int
+  created_timetick DateTime      @default(now()) @db.Timestamp(0)
+  publisher        publisher     @relation(fields: [publisher_id], references: [idx], onDelete: Cascade, onUpdate: Cascade)
+  content_owner    content_owner @relation(fields: [co_id], references: [idx], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([book_uniq_idx], map: "book_uniq_idx")
+  @@index([co_id], map: "co_id")
+  @@index([publisher_id], map: "publisher_id")
+}
