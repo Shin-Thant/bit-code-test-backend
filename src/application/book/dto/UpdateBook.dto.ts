@@ -16,7 +16,7 @@ export class UpdateBookParamDto {
 export class UpdateBookBodyDto {
   @IsString()
   @IsOptional()
-  bookname?: string;
+  name?: string;
 
   @IsNumber()
   @IsOptional()

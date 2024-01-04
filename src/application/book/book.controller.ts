@@ -119,7 +119,7 @@ export class BookController {
     const updateResult = await this.bookService.updateBook({
       where: { idx: parseInt(param.bookID) },
       data: {
-        bookname: body.bookname,
+        bookname: body.name,
         co_id: body.content_owner_id,
         publisher_id: body.publisher_id,
         price: body.price,
